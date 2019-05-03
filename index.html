@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="output">Hi</h1>
+</body>
+<script>
+    // Using a promise
+    const request = fetch("https://api.adviceslip.com/advice")
+
+    console.log(request)
+    
+    request
+        .then(response => {
+            return response.json()
+        })
+        .then(json => {
+            document.getElementById('output')
+                .innerText = json.slip.advice
+        })
+
+    // Using a callback
+    function reqListener(){
+        console.log(this.response)
+        const json = JSON.parse(this.response)
+        document.getElementById('output')
+                .innerText = json.slip.advice
+    }
+
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", reqListener);
+    oReq.open("GET", "https://api.adviceslip.com/advice");
+    oReq.send();
+    
+
+</script>
+</html>
